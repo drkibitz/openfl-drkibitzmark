@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+
+	<meta title="BunnyMark" package="com.drkibitz.bunnymark" version="1.0.0" />
+	<app path="Export" file="BunnyMark" main="bunnymark.BlitBunnyMark" />
+
+	<window fps="60" />
+	<window width="800" height="600" if="desktop" />
+	<window width="0" height="0" if="html5" />
+
+	<source path="Source" />
+
+	<haxelib name="openfl" />
+
+	<ios binaries="armv7" />
+
+	<assets path="Assets/images" rename="images" include="*" />
+
+	<icon path="Assets/images/bunny.png" />
+</project>
