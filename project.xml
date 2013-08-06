@@ -2,7 +2,7 @@
 <project>
 
 	<meta title="BunnyMark" package="com.drkibitz.bunnymark" version="1.0.0" />
-	<app path="Export" file="BunnyMark" main="bunnymark.BlitBunnyMark" />
+	<app path="Export" file="BunnyMark" main="bunnymark.blit.Main" />
 
 	<window fps="60" />
 	<window width="800" height="600" if="desktop" />

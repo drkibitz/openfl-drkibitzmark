@@ -1,4 +1,4 @@
-package bunnymark;
+package bunnymark.bitmap;
 
 import flash.display.BitmapData;
 import flash.display.Sprite;
@@ -8,10 +8,10 @@ import flash.Lib;
 import flash.Vector;
 import openfl.Assets;
 
-class BitmapBunnyMark extends Sprite {
-
+class Main extends Sprite
+{
     private var amount:Int = 10;
-    private var bunnies:Vector <BitmapBunny>;
+    private var bunnies:Vector <Bunny>;
     private var container:Sprite;
     private var gravity:Float = 0.75;
     private var isAdding:Bool = false;
@@ -23,30 +23,30 @@ class BitmapBunnyMark extends Sprite {
     private var numOfBunniesStart:Int = 10;
     private var wabbitTexture:BitmapData;
 
-    public function new ()
+    public function new()
     {
-        super ();
+        super();
 
-        bunnies = new Vector <BitmapBunny> ();
+        bunnies = new Vector <Bunny>();
         container = new Sprite ();
         maxX = stage.stageWidth - 26;
         maxY = stage.stageHeight - 37;
-        wabbitTexture = Assets.getBitmapData ("images/bunny.png");
+        wabbitTexture = Assets.getBitmapData("images/bunny.png");
 
         for (i in 0...numOfBunniesStart) {
             addBunny();
         }
-        addChild (container);
+        addChild(container);
 
-        stage.addEventListener (MouseEvent.MOUSE_DOWN, stage_onMouseDown);
-        stage.addEventListener (MouseEvent.MOUSE_UP, stage_onMouseUp);
-        stage.addEventListener (Event.RESIZE, stage_onResize);
-        addEventListener (Event.ENTER_FRAME, this_onEnterFrame);
+        stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_onMouseDown);
+        stage.addEventListener(MouseEvent.MOUSE_UP, stage_onMouseUp);
+        stage.addEventListener(Event.RESIZE, stage_onResize);
+        addEventListener(Event.ENTER_FRAME, this_onEnterFrame);
     }
 
     private function addBunny ():Void
     {
-        var bunny:BitmapBunny = new BitmapBunny(
+        var bunny:Bunny = new Bunny(
             wabbitTexture,
             Math.random() * 10,
             (Math.random() * 10) - 5
@@ -58,7 +58,7 @@ class BitmapBunnyMark extends Sprite {
 
     // Event Handlers
 
-    private function this_onEnterFrame (event:Event):Void
+    private function this_onEnterFrame(event:Event):Void
     {
         var i:Int;
 
@@ -77,7 +77,7 @@ class BitmapBunnyMark extends Sprite {
 
         i = 0;
         while(i < numOfBunnies) {
-            var bunny:BitmapBunny = bunnies[i];
+            var bunny:Bunny = bunnies[i];
 
             bunny.x += bunny.speed.x;
             bunny.y += bunny.speed.y;
@@ -106,17 +106,17 @@ class BitmapBunnyMark extends Sprite {
         }
     }
 
-    private function stage_onMouseDown (event:MouseEvent):Void
+    private function stage_onMouseDown(event:MouseEvent):Void
     {
         isAdding = true;
     }
 
-    private function stage_onMouseUp (event:MouseEvent):Void
+    private function stage_onMouseUp(event:MouseEvent):Void
     {
         isAdding = false;
     }
 
-    private function stage_onResize (event:Event):Void
+    private function stage_onResize(event:Event):Void
     {
         maxX = stage.stageWidth - 26;
         maxY = stage.stageHeight - 37;
