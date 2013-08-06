@@ -8,6 +8,8 @@ import flash.Lib;
 import flash.Vector;
 import openfl.Assets;
 
+import bunnymark.Fps;
+
 class Main extends Sprite
 {
     private var amount:Int = 10;
@@ -36,7 +38,9 @@ class Main extends Sprite
         for (i in 0...numOfBunniesStart) {
             addBunny();
         }
+
         addChild(container);
+        addChild(new Fps());
 
         stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_onMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, stage_onMouseUp);
@@ -46,11 +50,9 @@ class Main extends Sprite
 
     private function addBunny ():Void
     {
-        var bunny:Bunny = new Bunny(
-            wabbitTexture,
-            Math.random() * 10,
-            (Math.random() * 10) - 5
-        );
+        var bunny:Bunny = new Bunny(wabbitTexture);
+        bunny.speedX = Math.random() * 10;
+        bunny.speedY = (Math.random() * 10) - 5;
         bunnies[numOfBunnies] = bunny;
         container.addChild(bunny);
         numOfBunnies++;
@@ -79,26 +81,26 @@ class Main extends Sprite
         while(i < numOfBunnies) {
             var bunny:Bunny = bunnies[i];
 
-            bunny.x += bunny.speed.x;
-            bunny.y += bunny.speed.y;
-            bunny.speed.y += gravity;
+            bunny.x = Math.round(bunny.x + bunny.speedX);
+            bunny.y = Math.round(bunny.y + bunny.speedY);
+            bunny.speedY += gravity;
 
             if (bunny.x > maxX) {
-                bunny.speed.x *= -1;
+                bunny.speedX *= -1;
                 bunny.x = maxX;
             } else if (bunny.x < minX) {
-                bunny.speed.x *= -1;
+                bunny.speedX *= -1;
                 bunny.x = minX;
             }
 
             if (bunny.y > maxY) {
-                bunny.speed.y *= -0.85;
+                bunny.speedY *= -0.85;
                 bunny.y = maxY;
                 if (Math.random() > 0.5) {
-                    bunny.speed.y -= Math.random() * 6;
+                    bunny.speedY -= Math.random() * 6;
                 }
             } else if (bunny.y < minY) {
-                bunny.speed.y = 0;
+                bunny.speedY = 0;
                 bunny.y = minY;
             }
 

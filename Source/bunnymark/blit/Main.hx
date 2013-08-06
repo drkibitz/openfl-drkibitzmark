@@ -36,14 +36,14 @@ class Main extends Sprite
         maxY = stage.stageHeight - 37;
         wabbitTexture = Assets.getBitmapData("images/bunny.png");
 
-        bitmap = new Bitmap(new BitmapData(maxX + 26, maxY + 37));
-        addChild(bitmap);
+        bitmap = new Bitmap(new BitmapData(stage.stageWidth, stage.stageHeight));
 
         for (i in 0...numOfBunniesStart) {
             addBunny();
         }
 
-        addChild( new Fps() );
+        addChild(bitmap);
+        addChild(new Fps());
 
         stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_onMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, stage_onMouseUp);
@@ -53,11 +53,9 @@ class Main extends Sprite
 
     private function addBunny ():Void
     {
-        var bunny:Bunny = new Bunny(
-            wabbitTexture,
-            Math.random() * 10,
-            (Math.random() * 10) - 5
-        );
+        var bunny:Bunny = new Bunny();
+        bunny.speedX = Math.random() * 10;
+        bunny.speedY = (Math.random() * 10) - 5;
         bunnies[numOfBunnies] = bunny;
         numOfBunnies++;
     }
@@ -82,36 +80,36 @@ class Main extends Sprite
         }
 
         bitmap.bitmapData.lock();
-        bitmap.bitmapData.fillRect(new Rectangle(0, 0, maxX + 26, maxY + 37), 0);
+        bitmap.bitmapData.fillRect(new Rectangle(0, 0, bitmap.width, bitmap.height), 0);
         var sourceRect:Rectangle = new Rectangle(0, 0, 26, 37);
 
         i = 0;
         while(i < numOfBunnies) {
             var bunny:Bunny = bunnies[i];
 
-            bunny.position.x += bunny.speed.x;
-            bunny.position.y += bunny.speed.y;
-            bunny.speed.y += gravity;
+            bunny.x = Math.round(bunny.x + bunny.speedX);
+            bunny.y = Math.round(bunny.y + bunny.speedY);
+            bunny.speedY += gravity;
 
-            if (bunny.position.x > maxX) {
-                bunny.speed.x *= -1;
-                bunny.position.x = maxX;
-            } else if (bunny.position.x < minX) {
-                bunny.speed.x *= -1;
-                bunny.position.x = minX;
+            if (bunny.x > maxX) {
+                bunny.speedX *= -1;
+                bunny.x = maxX;
+            } else if (bunny.x < minX) {
+                bunny.speedX *= -1;
+                bunny.x = minX;
             }
 
-            if (bunny.position.y > maxY) {
-                bunny.speed.y *= -0.85;
-                bunny.position.y = maxY;
+            if (bunny.y > maxY) {
+                bunny.speedY *= -0.85;
+                bunny.y = maxY;
                 if (Math.random() > 0.5) {
-                    bunny.speed.y -= Math.random() * 6;
+                    bunny.speedY -= Math.random() * 6;
                 }
-            } else if (bunny.position.y < minY) {
-                bunny.speed.y = 0;
-                bunny.position.y = minY;
+            } else if (bunny.y < minY) {
+                bunny.speedY = 0;
+                bunny.y = minY;
             }
-            bitmap.bitmapData.copyPixels(bunny.bitmapData, sourceRect, bunny.position, null, null, true);
+            bitmap.bitmapData.copyPixels(wabbitTexture, sourceRect, bunny, null, null, true);
 
             i++;
         }
@@ -133,5 +131,6 @@ class Main extends Sprite
     {
         maxX = stage.stageWidth - 26;
         maxY = stage.stageHeight - 37;
+        bitmap.bitmapData = new BitmapData(stage.stageWidth, stage.stageHeight);
     }
 }
