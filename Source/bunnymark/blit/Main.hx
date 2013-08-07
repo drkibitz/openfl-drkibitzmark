@@ -7,7 +7,6 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import flash.Lib;
-import flash.Vector;
 import openfl.Assets;
 
 import bunnymark.Fps;
@@ -15,7 +14,7 @@ import bunnymark.Fps;
 class Main extends Sprite
 {
     private var amount:Int = 10;
-    private var bunnies:Vector <Bunny>;
+    private var bunnies:Array <Bunny>;
     private var bitmap:Bitmap;
     private var gravity:Float = 0.75;
     private var isAdding:Bool = false;
@@ -31,7 +30,7 @@ class Main extends Sprite
     {
         super();
 
-        bunnies = new Vector <Bunny>();
+        bunnies = new Array <Bunny>();
         maxX = stage.stageWidth - 26;
         maxY = stage.stageHeight - 37;
         wabbitTexture = Assets.getBitmapData("images/bunny.png");
