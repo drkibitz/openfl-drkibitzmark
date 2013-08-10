@@ -2,6 +2,7 @@ package bunnymark.blit;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
+import flash.display.PixelSnapping;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -26,6 +27,9 @@ class Main extends Sprite
     private var numOfBunniesStart:Int = 10;
     private var wabbitTexture:BitmapData;
 
+    private var fillRect:Rectangle;
+    private var sourceRect:Rectangle;
+
     public function new()
     {
         super();
@@ -35,7 +39,9 @@ class Main extends Sprite
         maxY = stage.stageHeight - 37;
         wabbitTexture = Assets.getBitmapData("images/bunny.png");
 
-        bitmap = new Bitmap(new BitmapData(stage.stageWidth, stage.stageHeight));
+        bitmap = new Bitmap(new BitmapData(stage.stageWidth, stage.stageHeight), PixelSnapping.ALWAYS, false);
+        fillRect = new Rectangle(0, 0, bitmap.width, bitmap.height);
+        sourceRect = new Rectangle(0, 0, 26, 37);
 
         for (i in 0...numOfBunniesStart) {
             addBunny();
@@ -63,54 +69,48 @@ class Main extends Sprite
 
     private function this_onEnterFrame(event:Event):Void
     {
-        var i:Int;
-
         if (isAdding && amount > 0) {
-            // add 10 at a time :)
-            i = 0;
-            while(i < amount) {
+            for (i in 0...amount) {
                 addBunny();
-                i++;
-            }
-            if (numOfBunnies >= 16500) {
-                amount = 0;
+                if (numOfBunnies >= 16500) {
+                    amount = 0;
+                    break;
+                }
             }
             trace(numOfBunnies + ' BUNNIES');
         }
 
         bitmap.bitmapData.lock();
-        bitmap.bitmapData.fillRect(new Rectangle(0, 0, bitmap.width, bitmap.height), 0);
-        var sourceRect:Rectangle = new Rectangle(0, 0, 26, 37);
+        bitmap.bitmapData.fillRect(fillRect, 0);
 
-        i = 0;
-        while(i < numOfBunnies) {
+        for (i in 0...numOfBunnies) {
             var bunny:Bunny = bunnies[i];
-
-            bunny.x = Math.round(bunny.x + bunny.speedX);
-            bunny.y = Math.round(bunny.y + bunny.speedY);
+            var x = bunny.x + bunny.speedX;
+            var y = bunny.y + bunny.speedY;
             bunny.speedY += gravity;
 
-            if (bunny.x > maxX) {
+            if (x > maxX) {
                 bunny.speedX *= -1;
-                bunny.x = maxX;
-            } else if (bunny.x < minX) {
+                x = maxX;
+            } else if (x < minX) {
                 bunny.speedX *= -1;
-                bunny.x = minX;
+                x = minX;
             }
 
-            if (bunny.y > maxY) {
+            if (y > maxY) {
                 bunny.speedY *= -0.85;
-                bunny.y = maxY;
+                y = maxY;
                 if (Math.random() > 0.5) {
                     bunny.speedY -= Math.random() * 6;
                 }
-            } else if (bunny.y < minY) {
+            } else if (y < minY) {
                 bunny.speedY = 0;
-                bunny.y = minY;
+                y = minY;
             }
-            bitmap.bitmapData.copyPixels(wabbitTexture, sourceRect, bunny, null, null, true);
 
-            i++;
+            bunny.x = x;
+            bunny.y = y;
+            bitmap.bitmapData.copyPixels(wabbitTexture, sourceRect, bunny, null, null, true);
         }
 
         bitmap.bitmapData.unlock();
