@@ -15,6 +15,7 @@ class Main extends Sprite
     private var amount:Int = 10;
     private var bunnies:Array <Bunny>;
     private var container:Sprite;
+    private var fps:Fps;
     private var gravity:Float = 0.75;
     private var isAdding:Bool = false;
     private var maxX:Int;
@@ -30,7 +31,8 @@ class Main extends Sprite
         super();
 
         bunnies = new Array <Bunny>();
-        container = new Sprite ();
+        container = new Sprite();
+        fps = new Fps();
         maxX = stage.stageWidth - 26;
         maxY = stage.stageHeight - 37;
         wabbitTexture = Assets.getBitmapData("images/bunny.png");
@@ -40,7 +42,7 @@ class Main extends Sprite
         }
 
         addChild(container);
-        addChild(new Fps());
+        addChild(fps);
 
         stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_onMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, stage_onMouseUp);
@@ -62,6 +64,8 @@ class Main extends Sprite
 
     private function this_onEnterFrame(event:Event):Void
     {
+        fps.start();
+
         if (isAdding && amount > 0) {
             for (i in 0...amount) {
                 addBunny();
@@ -101,6 +105,8 @@ class Main extends Sprite
             bunny.x = x;
             bunny.y = y;
         }
+
+        fps.end();
     }
 
     private function stage_onMouseDown(event:MouseEvent):Void
