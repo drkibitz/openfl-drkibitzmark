@@ -367,13 +367,13 @@ class GLRenderBatch
             this.dynamicSize = Math.round(this.size * 1.5);
         }
 
-        // verticies
+        // init and upload verticies
         this.verticies = [];
         for (i in 0...this.dynamicSize * 8) this.verticies[i] = 0.0; // preallocate
         GL.bindBuffer(GL.ARRAY_BUFFER, this.glBufferVertex);
         GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(this.verticies), GL.DYNAMIC_DRAW);
 
-        // uvs
+        // init and upload uvs
         this.uvs = [];
         for (i in 0...this.dynamicSize * 8) this.uvs[i] = 0.0; // preallocate
         GL.bindBuffer(GL.ARRAY_BUFFER, this.glBufferUv);
@@ -381,7 +381,7 @@ class GLRenderBatch
 
         this.dirtyUvs = true;
 
-        // colors
+        // init and upload colors
         this.colors = [];
         for (i in 0...this.dynamicSize * 4) this.colors[i] = 0.0; // preallocate
         GL.bindBuffer(GL.ARRAY_BUFFER, this.glBufferColor);
@@ -389,7 +389,7 @@ class GLRenderBatch
 
         this.dirtyColors = true;
 
-        // indices
+        // init and upload indices
         this.indices = [];
         for (i in 0...this.dynamicSize * 6) this.indices[i] = 0; // preallocate
         var length = this.indices.length / 6;
@@ -408,6 +408,8 @@ class GLRenderBatch
         };
 
         GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.glBufferIndex);
+        // TODO: Int16Array is the only thing I have to work with
+        // This should really be unsigned
         GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(this.indices), GL.STATIC_DRAW);
     }
 
@@ -422,15 +424,16 @@ class GLRenderBatch
 
         _updateBatch(this);
 
-        //TODO optimize this!
+        // TODO optimize this!
+        // Is this even needed since this is already called in the renderer method?
         GL.useProgram(renderer.glShaderProgram.glProgram);
 
-        // update the verts..
+        // update verticies
         GL.bindBuffer(GL.ARRAY_BUFFER, this.glBufferVertex);
         GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(this.verticies));
         GL.vertexAttribPointer(renderer.glShaderProgram.vertexPositionAttribute, 2, GL.FLOAT, false, 0, 0);
 
-        // update the uvs
+        // update uvs
         GL.bindBuffer(GL.ARRAY_BUFFER, this.glBufferUv);
         if (this.dirtyUvs) {
             this.dirtyUvs = false;
@@ -441,7 +444,7 @@ class GLRenderBatch
         GL.activeTexture(GL.TEXTURE0);
         GL.bindTexture(GL.TEXTURE_2D, this.texture.glTexture);
 
-        // update color!
+        // update colors
         GL.bindBuffer(GL.ARRAY_BUFFER, this.glBufferColor);
         if (this.dirtyColors) {
             this.dirtyColors = false;

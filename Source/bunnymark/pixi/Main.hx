@@ -5,7 +5,6 @@ import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.geom.Rectangle;
 import flash.utils.Timer;
-import openfl.display.OpenGLView;
 import pixi.display.DisplayObjectContainer;
 import pixi.display.Scene;
 import pixi.renderer.gl.GLRenderer;
@@ -34,7 +33,6 @@ class Main extends flash.display.Sprite
     private var container:DisplayObjectContainer;
     private var scene:Scene;
     private var renderer:GLRenderer;
-    private var view:OpenGLView;
     private var wabbitTexture:Texture;
 
     public function new()
@@ -56,11 +54,10 @@ class Main extends flash.display.Sprite
 
         // implementation
 
-        if (OpenGLView.isSupported) {
+        if (GLRenderer.isSupported) {
             container = new DisplayObjectContainer();
             scene = new Scene();
             renderer = new GLRenderer();
-            view = new OpenGLView();
             wabbitTexture = Texture.fromAsset("images/bunny.png");
 
             for (i in 0...numOfBunniesStart) {
@@ -68,8 +65,8 @@ class Main extends flash.display.Sprite
             }
 
             scene.addChild(container);
-            addChild(view);
-            view.render = renderView;
+            addChild(renderer.view);
+            renderer.view.render = renderView;
         }
 
         // addChild(stats); // rendering mixed contexts crashes ios, tracing should be enough for now
