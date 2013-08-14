@@ -5,8 +5,7 @@
 	<app path="Export" file="BunnyMark" main="bunnymark.blit.Main" />
 
 	<window fps="60" />
-	<window width="800" height="600" if="desktop" />
-	<window width="0" height="0" if="html5" />
+	<window fps="90" if="ios" />
 
 	<source path="Source" />
 

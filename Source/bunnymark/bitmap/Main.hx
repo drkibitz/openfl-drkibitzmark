@@ -5,36 +5,53 @@ import flash.display.PixelSnapping;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 import openfl.Assets;
-
-import bunnymark.Fps;
+import bunnymark.Stats;
 
 class Main extends Sprite
 {
+    // common
+
     private var amount:Int = 10;
     private var bunnies:Array <Bunny>;
-    private var container:Sprite;
-    private var fps:Fps;
     private var gravity:Float = 0.75;
     private var isAdding:Bool = false;
     private var maxX:Int;
     private var maxY:Int;
     private var minX:Int = 0;
-    private var minY:Int = 0;
+    private var minY:Int = -100;
     private var numOfBunnies:Int = 0;
     private var numOfBunniesStart:Int = 10;
+    private var stats:Stats;
+    private var statsTimer:Timer;
+
+    // implementation
+
+    private var container:Sprite;
     private var wabbitTexture:BitmapData;
 
     public function new()
     {
         super();
 
+        // common
+
         bunnies = new Array <Bunny>();
-        container = new Sprite();
-        fps = new Fps();
         maxX = stage.stageWidth - 26;
         maxY = stage.stageHeight - 37;
+        stats = new Stats();
+        statsTimer = new Timer(1000);
+
+        statsTimer.addEventListener(TimerEvent.TIMER, statsTimer_timer);
+        stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_onMouseDown);
+        stage.addEventListener(MouseEvent.MOUSE_UP, stage_onMouseUp);
+        stage.addEventListener(Event.RESIZE, stage_onResize);
+
+        // implementation
+
+        container = new Sprite();
         wabbitTexture = Assets.getBitmapData("images/bunny.png");
 
         for (i in 0...numOfBunniesStart) {
@@ -42,13 +59,37 @@ class Main extends Sprite
         }
 
         addChild(container);
-        addChild(fps);
-
-        stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_onMouseDown);
-        stage.addEventListener(MouseEvent.MOUSE_UP, stage_onMouseUp);
-        stage.addEventListener(Event.RESIZE, stage_onResize);
+        //addChild(stats); tracing should be enough for now
         addEventListener(Event.ENTER_FRAME, this_onEnterFrame);
+        statsTimer.start();
+
+        trace("-------------CLICK AND HOLD TO ADD BUNNIES!");
     }
+
+    // common
+
+    private function stage_onMouseDown(event:MouseEvent):Void
+    {
+        isAdding = true;
+    }
+
+    private function stage_onMouseUp(event:MouseEvent):Void
+    {
+        isAdding = false;
+    }
+
+    private function stage_onResize(event:Event):Void
+    {
+        maxX = stage.stageWidth - 26;
+        maxY = stage.stageHeight - 37;
+    }
+
+    private function statsTimer_timer(event:TimerEvent):Void
+    {
+        trace("FPS: " + stats.realFps + "/" + stage.frameRate + ", M: " + stats.memoryUsage + ", BUNNIES: " + numOfBunnies);
+    }
+
+    // implementation
 
     private function addBunny ():Void
     {
@@ -60,11 +101,9 @@ class Main extends Sprite
         numOfBunnies++;
     }
 
-    // Event Handlers
-
     private function this_onEnterFrame(event:Event):Void
     {
-        fps.start();
+        stats.start();
 
         if (isAdding && amount > 0) {
             for (i in 0...amount) {
@@ -74,7 +113,6 @@ class Main extends Sprite
                     break;
                 }
             }
-            trace(numOfBunnies + ' BUNNIES');
         }
 
         for (i in 0...numOfBunnies) {
@@ -106,22 +144,6 @@ class Main extends Sprite
             bunny.y = y;
         }
 
-        fps.end();
-    }
-
-    private function stage_onMouseDown(event:MouseEvent):Void
-    {
-        isAdding = true;
-    }
-
-    private function stage_onMouseUp(event:MouseEvent):Void
-    {
-        isAdding = false;
-    }
-
-    private function stage_onResize(event:Event):Void
-    {
-        maxX = stage.stageWidth - 26;
-        maxY = stage.stageHeight - 37;
+        stats.end();
     }
 }
