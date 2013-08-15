@@ -1,5 +1,6 @@
 package bunnymark.pixi;
 
+import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
@@ -11,7 +12,7 @@ import pixi.renderer.gl.GLRenderer;
 import pixi.texture.Texture;
 import bunnymark.Stats;
 
-class Main extends flash.display.Sprite
+class Main extends Sprite
 {
     // common
 
@@ -25,6 +26,7 @@ class Main extends flash.display.Sprite
     private var minY:Int = -100;
     private var numOfBunnies:Int = 0;
     private var numOfBunniesStart:Int = 10;
+    private var pixelDensity:Float = 1;
     private var stats:Stats;
     private var statsTimer:Timer;
 
@@ -37,13 +39,20 @@ class Main extends flash.display.Sprite
 
     public function new()
     {
-        super();
-
         // common
 
+        #if html5
+        // pixelDensity = js.Browser.window.devicePixelRatio;
+        #else
+        pixelDensity = stage.dpiScale;
+        #end
+
+        var w:Int = Std.int(stage.stageWidth / pixelDensity);
+        var h:Int = Std.int(stage.stageHeight / pixelDensity);
+
         bunnies = new Array <Bunny>();
-        maxX = stage.stageWidth - 26;
-        maxY = stage.stageHeight - 37;
+        maxX = w - 26;
+        maxY = h - 37;
         stats = new Stats();
         statsTimer = new Timer(1000);
 
@@ -53,6 +62,8 @@ class Main extends flash.display.Sprite
         stage.addEventListener(Event.RESIZE, stage_onResize);
 
         // implementation
+
+        super();
 
         if (GLRenderer.isSupported) {
             container = new DisplayObjectContainer();
@@ -73,6 +84,7 @@ class Main extends flash.display.Sprite
         statsTimer.start();
 
         trace("-------------CLICK AND HOLD TO ADD BUNNIES!");
+        trace("stage: " + stage.stageWidth + "x" + stage.stageHeight + ", pixelDensity: " + pixelDensity);
     }
 
     // common
@@ -89,8 +101,10 @@ class Main extends flash.display.Sprite
 
     private function stage_onResize(event:Event):Void
     {
-        maxX = stage.stageWidth - 26;
-        maxY = stage.stageHeight - 37;
+        var w:Int = Std.int(stage.stageWidth / pixelDensity);
+        var h:Int = Std.int(stage.stageHeight / pixelDensity);
+        maxX = w - 26;
+        maxY = h - 37;
     }
 
     private function statsTimer_timer(event:TimerEvent):Void
@@ -153,7 +167,7 @@ class Main extends flash.display.Sprite
             bunny.position.y = y;
         }
 
-        renderer.render(rect, scene);
+        renderer.render(rect, scene, pixelDensity);
         stats.end();
     }
 }

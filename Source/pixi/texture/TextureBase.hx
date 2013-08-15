@@ -31,7 +31,7 @@ class TextureBase implements ITexture
         return instance;
     }
 
-    public var glTexture:GLTexture;
+    public var glTexture:GLTexture = null;
     public var height:Int;
     public var width:Int;
     #if html5
@@ -54,7 +54,6 @@ class TextureBase implements ITexture
         #else
         source = new UInt8Array(BitmapData.getRGBAPixels(bitmapData));
         #end
-        glTexture = GL.createTexture();
         height = bitmapData.height;
         width = bitmapData.width;
         toUpdate.push(this);

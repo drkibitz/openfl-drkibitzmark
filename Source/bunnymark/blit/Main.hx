@@ -3,7 +3,6 @@ package bunnymark.blit;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.PixelSnapping;
-import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
@@ -12,7 +11,7 @@ import flash.utils.Timer;
 import openfl.Assets;
 import bunnymark.Stats;
 
-class Main extends Sprite
+class Main extends Bitmap
 {
     // common
 
@@ -26,25 +25,32 @@ class Main extends Sprite
     private var minY:Int = -100;
     private var numOfBunnies:Int = 0;
     private var numOfBunniesStart:Int = 10;
+    private var pixelDensity:Float = 1;
     private var stats:Stats;
     private var statsTimer:Timer;
 
     // implementation
 
-    private var bitmap:Bitmap;
     private var fillRect:Rectangle;
     private var sourceRect:Rectangle;
     private var wabbitTexture:BitmapData;
 
     public function new()
     {
-        super();
-
         // common
 
+        #if html5
+        // pixelDensity = js.Browser.window.devicePixelRatio;
+        #else
+        pixelDensity = stage.dpiScale;
+        #end
+
+        var w:Int = Std.int(stage.stageWidth / pixelDensity);
+        var h:Int = Std.int(stage.stageHeight / pixelDensity);
+
         bunnies = new Array <Bunny>();
-        maxX = stage.stageWidth - 26;
-        maxY = stage.stageHeight - 37;
+        maxX = w - 26;
+        maxY = h - 37;
         stats = new Stats();
         statsTimer = new Timer(1000);
 
@@ -55,21 +61,23 @@ class Main extends Sprite
 
         // implementation
 
-        bitmap = new Bitmap(new BitmapData(stage.stageWidth, stage.stageHeight), PixelSnapping.ALWAYS, false);
-        wabbitTexture = Assets.getBitmapData("images/bunny.png");
-        fillRect = new Rectangle(0, 0, bitmap.width, bitmap.height);
+        super(new BitmapData(w, h), PixelSnapping.ALWAYS, false);
+        scaleX = scaleY = pixelDensity;
+
+        wabbitTexture = Assets.getBitmapData("images/bunny.png", true);
+        fillRect = new Rectangle(0, 0, width, height);
         sourceRect = new Rectangle(0, 0, 26, 37);
 
         for (i in 0...numOfBunniesStart) {
             addBunny();
         }
 
-        addChild(bitmap);
         //addChild(stats); tracing should be enough for now
         addEventListener(Event.ENTER_FRAME, this_onEnterFrame);
         statsTimer.start();
 
         trace("-------------CLICK AND HOLD TO ADD BUNNIES!");
+        trace("stage: " + stage.stageWidth + "x" + stage.stageHeight + ", pixelDensity: " + pixelDensity);
     }
 
     // common
@@ -86,8 +94,12 @@ class Main extends Sprite
 
     private function stage_onResize(event:Event):Void
     {
-        maxX = stage.stageWidth - 26;
-        maxY = stage.stageHeight - 37;
+        var w:Int = Std.int(stage.stageWidth / pixelDensity);
+        var h:Int = Std.int(stage.stageHeight / pixelDensity);
+        bitmapData = new BitmapData(w, h);
+        fillRect = new Rectangle(0, 0, w, h);
+        maxX = w - 26;
+        maxY = h - 37;
     }
 
     private function statsTimer_timer(event:TimerEvent):Void
@@ -120,8 +132,8 @@ class Main extends Sprite
             }
         }
 
-        bitmap.bitmapData.lock();
-        bitmap.bitmapData.fillRect(fillRect, 0);
+        bitmapData.lock();
+        bitmapData.fillRect(fillRect, 0);
 
         for (i in 0...numOfBunnies) {
             var bunny:Bunny = bunnies[i];
@@ -150,10 +162,10 @@ class Main extends Sprite
 
             bunny.x = x;
             bunny.y = y;
-            bitmap.bitmapData.copyPixels(wabbitTexture, sourceRect, bunny, null, null, true);
+            bitmapData.copyPixels(wabbitTexture, sourceRect, bunny, null, null, true);
         }
 
-        bitmap.bitmapData.unlock();
+        bitmapData.unlock();
         stats.end();
     }
 }

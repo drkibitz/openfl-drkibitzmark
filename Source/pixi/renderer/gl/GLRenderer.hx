@@ -14,6 +14,10 @@ class GLRenderer
 
     private static function _updateTextureBase(textureBase:TextureBase):Void
     {
+        if (textureBase.glTexture == null) {
+            textureBase.glTexture = GL.createTexture();
+        }
+
         GL.bindTexture(GL.TEXTURE_2D, textureBase.glTexture);
         #if html5
         GL.pixelStorei(GL.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1);
@@ -32,8 +36,10 @@ class GLRenderer
 
     private static function _destroyTextureBase(textureBase:TextureBase):Void
     {
-        GL.deleteTexture(textureBase.glTexture);
-        textureBase.glTexture = null;
+        if (textureBase.glTexture != null) {
+            GL.deleteTexture(textureBase.glTexture);
+            textureBase.glTexture = null;
+        }
     }
 
     private static function _updateTextures():Void
@@ -72,7 +78,7 @@ class GLRenderer
         GL.enable(GL.BLEND);
     }
 
-    public function render(rect:Rectangle, scene:Scene):Void
+    public function render(rect:Rectangle, scene:Scene, pixelDensity:Float = 1):Void
     {
         // if rendering a new scene clear the glBatches..
         if (sceneGLRenderGroup.root != scene)
@@ -88,8 +94,8 @@ class GLRenderer
         // It actually prevents rendering on certain platforms.
         //GL.bindFramebuffer(GL.FRAMEBUFFER, null);
 
-        projection.x = rect.width / 2;
-        projection.y = rect.height / 2;
+        projection.x = rect.width / (2 * pixelDensity);
+        projection.y = rect.height / (2 * pixelDensity);
 
         GL.useProgram(glShaderProgram.glProgram);
         GL.uniform2f(glShaderProgram.projectionVector, projection.x, projection.y);
