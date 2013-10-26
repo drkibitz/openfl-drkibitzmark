@@ -42,3 +42,7 @@ Or open the **project.xml** file and change the following:
 - linux (64)
 - ios
 - flash (Except MARK_PIXI implementation)
+
+### Expected Resuilt
+
+![Screen Shot](https://raw.github.com/drkibitz/openfl-drkibitzmark/master/screenshot.png "Screen Shot")
