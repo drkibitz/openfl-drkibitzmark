@@ -55,11 +55,10 @@ class Main extends MarkBase
     {
         stats.start();
 
-        if (isAdding && amount > 0) {
-            for (i in 0...amount) {
+        if (isAdding && numOfMarkObjs < MarkBase.MAX_NUM_OF_OBJS) {
+            for (i in 0...MarkBase.AMOUNT_TO_ADD) {
                 addMarkObj(createMarkObj());
-                if (numOfMarkObjs >= maxNumOfMarkObjs) {
-                    amount = 0;
+                if (numOfMarkObjs >= MarkBase.MAX_NUM_OF_OBJS) {
                     break;
                 }
             }
@@ -70,9 +69,9 @@ class Main extends MarkBase
             var x:Float = obj.position.x;
             var y:Float = obj.position.y;
 
-            x += obj.speedX;
-            y += obj.speedY;
-            obj.speedY += gravity;
+            x += obj.speedX * MarkBase.TIME_SCALE;
+            y += obj.speedY * MarkBase.TIME_SCALE;
+            obj.speedY += MarkBase.GRAVITY * MarkBase.TIME_SCALE;
 
             if (x > maxX) {
                 obj.speedX *= -1;

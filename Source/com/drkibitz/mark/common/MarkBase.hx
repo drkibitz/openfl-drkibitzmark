@@ -10,25 +10,22 @@ import openfl.Assets;
 
 class MarkBase extends Sprite
 {
-    #if mobile
-    private var amount:Int = 10;
-    #else
-    private var amount:Int = 50;
-    #end
+    private static inline var GRAVITY:Float = 0.75;
+    private static inline var TIME_SCALE:Float = 0.5;
+    private static inline var AMOUNT_TO_ADD:Int =#if mobile 10#else 50#end;
+    private static inline var MAX_NUM_OF_OBJS:Int = 200000;
+
     private var createMarkObj:Void -> IMarkObj;
     private var dpiHeight:Int;
     private var dpiWidth:Int;
-    private var gravity:Float = 0.75;
     private var isAdding:Bool = false;
     private var markObjs:Array <IMarkObj>;
     private var markObjBitmapData:BitmapData;
-    private var maxNumOfMarkObjs:Int = 200000;
     private var maxX:Int;
     private var maxY:Int;
     private var minX:Int = 0;
     private var minY:Int = -100;
     private var numOfMarkObjs:Int = 0;
-    private var numOfMarkObjsStart:Int = 10;
     private var patternBitmapData:BitmapData;
     private var pixelDensity:Float = 1;
     private var stats:Stats;
@@ -50,7 +47,7 @@ class MarkBase extends Sprite
 
     private function init():Void
     {
-        for (i in 0...numOfMarkObjsStart) {
+        for (i in 0...10) {
             addMarkObj(createMarkObj());
         }
 
@@ -132,11 +129,10 @@ class MarkBase extends Sprite
     {
         stats.start();
 
-        if (isAdding && amount > 0) {
-            for (i in 0...amount) {
+        if (isAdding && numOfMarkObjs < MAX_NUM_OF_OBJS) {
+            for (i in 0...AMOUNT_TO_ADD) {
                 addMarkObj(createMarkObj());
-                if (numOfMarkObjs >= maxNumOfMarkObjs) {
-                    amount = 0;
+                if (numOfMarkObjs >= MAX_NUM_OF_OBJS) {
                     break;
                 }
             }

@@ -7,7 +7,7 @@ import openfl.display.Tilesheet;
 
 class Main extends MarkBase
 {
-    private static inline var TILE_FIELDS = 3;
+    private static inline var TILE_FIELDS:Int = 3;
 
     private var drawList:Array<Float>;
     private var smooth:Bool = false;
@@ -42,9 +42,9 @@ class Main extends MarkBase
             var x:Float = obj.x;
             var y:Float = obj.y;
 
-            x += obj.speedX;
-            y += obj.speedY;
-            obj.speedY += gravity;
+            x += obj.speedX * MarkBase.TIME_SCALE;
+            y += obj.speedY * MarkBase.TIME_SCALE;
+            obj.speedY += MarkBase.GRAVITY * MarkBase.TIME_SCALE;
 
             if (x > maxX) {
                 obj.speedX *= -1;

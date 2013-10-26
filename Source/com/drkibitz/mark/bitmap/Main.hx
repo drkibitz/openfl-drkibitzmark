@@ -28,9 +28,9 @@ class Main extends MarkBase
             var x:Float = obj.x;
             var y:Float = obj.y;
 
-            x += obj.speedX;
-            y += obj.speedY;
-            obj.speedY += gravity;
+            x += obj.speedX * MarkBase.TIME_SCALE;
+            y += obj.speedY * MarkBase.TIME_SCALE;
+            obj.speedY += MarkBase.GRAVITY * MarkBase.TIME_SCALE;
 
             if (x > maxX) {
                 obj.speedX *= -1;
