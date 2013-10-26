@@ -1,42 +1,44 @@
-BunnyMark
+drkibitz Mark
 =========
 
-Testing rendering performance, based on all the previous versions of the [Bunny Benchmark](http://blog.iainlobb.com/2010/11/display-list-vs-blitting-results.html) by Ian Lobb.
-
-### Tested Targets
-
-- html5 [WebGL Demo](http://drkibitz.com/ci/jobs/openfl-bunnymark/html5/). *Please view browser console for stats.*
-- Mac OS X 64
-- Linux 64
-- iOS
+Testing render performance, based on all the previous versions of the [Bunny Benchmark](http://blog.iainlobb.com/2010/11/display-list-vs-blitting-results.html) by Ian Lobb.
 
 ### Prerequisites
 
-- Install [OpenFL](http://www.openfl.org/developer/documentation/get-started/)
+- If you haven't already, please follow [these directions](http://www.openfl.org/download/) to get [OpenFL](http://www.openfl.org/) up and running.
+- The implementation **MARK_TILELAYER** requires [openfl-tilelayer](https://github.com/matthewswallace/openfl-tilelayer). To install run `haxelib install tilelayer`.
+
+### Implementations
+
+Upon building:
+
+- Define **MARK_BITMAP** to use the regular display list and Bitmap objects
+- Define **MARK_BLIT** to render using one large bitmap and copyPixels (blitting)
+- Define **MARK_DRAWTILES** to render using a tilesheet, draw list, and drawTiles
+- Define **MARK_PIXI** for OpenGLView rendering using a very small haxe fork of Pixi.js
+- Define **MARK_TILELAYER** to render using classes from the haxelib openfl-tilelayer
+
+Please reference the filename and/or title of your compiled app if you are unsure what was built.
 
 ### Running
 
-Open the `project.xml` file and change to one of the following:
+Open a terminal and run the following, where `{target}` is your chosen OpenFL target, and `{IMPLEMENTATION}` is the chosen rendering implementation.
 
-- **Default bitmap display list:**
-
-```xml
-<app path="Export" file="BunnyMark" main="bunnymark.bitmap.Main" />
-```
-
-- **Bitmap blitting:**
-
-```xml
-<app path="Export" file="BunnyMark" main="bunnymark.blit.Main" />
-```
-
-- **OpenGLView rendering (port of pixi.js):**
-
-```xml
-<app path="Export" file="BunnyMark" main="bunnymark.pixi.Main" />
-```
-
-Then build and run with:
 ```shell
-openfl test {target}
+openfl test {target} -D{IMPLEMENTATION}
 ```
+
+Or open the **project.xml** file and change the following:
+
+```xml
+<!-- Default implementation -->
+<set name="MARK_BITMAP" />
+```
+### Tested Targets
+
+- neko
+- html5 (View browser console for stats)
+- mac (64)
+- linux (64)
+- ios
+- flash (Except MARK_PIXI implementation)

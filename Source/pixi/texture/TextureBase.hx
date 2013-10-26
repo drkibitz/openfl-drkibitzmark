@@ -21,19 +21,21 @@ class TextureBase implements ITexture
     public static var toUpdate:Array <TextureBase> = [];
     public static var toDestroy:Array <TextureBase> = [];
 
-    public static function fromAsset(id:String):TextureBase
+    public static function fromAsset(id:String, ?useCache:Bool):TextureBase
     {
-        if (textureBaseCache.exists(id)) {
+        if (useCache && textureBaseCache.exists(id)) {
             return textureBaseCache.get(id);
         }
-        var instance = new TextureBase(Assets.getBitmapData(id));
-        textureBaseCache.set(id, instance);
+        var instance = new TextureBase(Assets.getBitmapData(id, useCache));
+        if (useCache)
+            textureBaseCache.set(id, instance);
         return instance;
     }
 
     public var glTexture:GLTexture = null;
     public var height:Int;
     public var width:Int;
+    public var repeat:Bool = false;
     #if html5
     public var source:Uint8Array;
     #else

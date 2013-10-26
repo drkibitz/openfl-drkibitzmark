@@ -28,8 +28,9 @@ class GLRenderer
         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR); // GL.LINEAR, GL.NEAREST
         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST); // GL.LINEAR, GL.NEAREST
 
-        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+        var repeat = textureBase.repeat ? GL.REPEAT : GL.CLAMP_TO_EDGE;
+        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, repeat);
+        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, repeat);
 
         GL.bindTexture(GL.TEXTURE_2D, null);
     }

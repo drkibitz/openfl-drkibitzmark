@@ -1,22 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 
-	<meta title="BunnyMark" package="com.drkibitz.bunnymark" version="1.0.0" />
-	<app path="Export" file="BunnyMark" main="bunnymark.pixi.Main" />
+    <window background="#333333" fps="60" />
+    <window hardware="true" require-shaders="true" depth-buffer="false" stencil-buffer="false" />
+    <window fullscreen="false" resizable="true" borderless="false" vsync="false" />
+    <window orientation="portrait" if="mobile" />
+    <window width="0" height="0" if="html5" />
 
-	<window background="#FFFFFF" fps="60" />
-	<window hardware="true" require-shaders="true" depth-buffer="false" stencil-buffer="false" />
-	<window fullscreen="false" resizable="true" borderless="false" vsync="false" />
-	<window orientation="portrait" />
-	<window width="0" height="0" if="html5" />
+    <!-- Default implementation -->
+    <set name="MARK_BITMAP" />
+    <!-- <set name="MARK_DRAWTILES" if="native" />
+    <set name="MARK_BLIT" if="flash" />
+    <set name="MARK_PIXI" if="html5" /> -->
 
-	<source path="Source" />
+    <!-- Implementations -->
+    <section if="MARK_BITMAP">
+        <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+        <meta title="Bitmap Mark" package="com.drkibitz.mark.bitmap" version="1.0.0" />
+        <!-- output -->
+        <app file="BitmapMark" main="com.drkibitz.mark.bitmap.Main" path="Export/bitmap"  />
+    </section>
+    <section if="MARK_BLIT">
+        <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+        <meta title="Blit Mark" package="com.drkibitz.mark.blit" version="1.0.0" />
+        <!-- output -->
+        <app file="BlitMark" main="com.drkibitz.mark.blit.Main" path="Export/blit" />
+    </section>
+    <section if="MARK_DRAWTILES">
+        <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+        <meta title="DrawTiles Mark" package="com.drkibitz.mark.drawtiles" version="1.0.0" />
+        <!-- output -->
+        <app file="DrawTilesMark" main="com.drkibitz.mark.drawtiles.Main" path="Export/drawtiles" />
+    </section>
+    <section if="MARK_PIXI">
+        <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+        <meta title="Pixi Mark" package="com.drkibitz.mark.pixi" version="1.0.0" />
+        <!-- output -->
+        <app file="PixiMark" main="com.drkibitz.mark.pixi.Main" path="Export/pixi" />
+    </section>
+    <section if="MARK_TILELAYER">
+        <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+        <meta title="TileLayer Mark" package="com.drkibitz.mark.tilelayer" version="1.0.0" />
+        <!-- output -->
+        <app file="TileLayerMark" main="com.drkibitz.mark.tilelayer.Main" path="Export/tilelayer" />
+        <!-- classpath, haxe libs -->
+        <haxelib name="tilelayer" />
+    </section>
 
-	<haxelib name="openfl" />
+    <!-- classpath, haxe libs -->
+    <source path="Source" />
+    <haxelib name="openfl" />
 
-	<ios binaries="armv7" />
+    <!-- assets -->
+    <assets path="Assets/images" rename="images" include="*" />
+    <icon path="Assets/images/drkibitz48.png" />
+    <!-- For ease of changing this -->
+    <!-- <haxedef name="MARK_IMAGE_WABBIT" /> -->
 
-	<assets path="Assets/images" rename="images" include="*" />
+    <!-- optimize output -->
+    <haxeflag name="-dce std" />
 
-	<icon path="Assets/images/bunny.png" />
 </project>
