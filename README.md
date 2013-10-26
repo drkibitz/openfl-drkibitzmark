@@ -1,4 +1,4 @@
-drkibitz Mark
+![drkibitz](https://raw.github.com/drkibitz/openfl-drkibitzmark/master/Assets/images/drkibitz48.png "drkibitz") drkibitz Mark
 =========
 
 Testing render performance, based on all the previous versions of the [Bunny Benchmark](http://blog.iainlobb.com/2010/11/display-list-vs-blitting-results.html) by Ian Lobb.
