@@ -24,9 +24,9 @@ class Main extends MarkBase
         drawList = new Array<Float>();
         shape = new Shape();
         addChild(shape);
-        tilesheet = new Tilesheet(markObjBitmapData);
+        tilesheet = new Tilesheet(objBitmapData);
         tilesheet.addTileRect(
-            new Rectangle(0, 0, markObjBitmapData.width, markObjBitmapData.height));
+            new Rectangle(0, 0, objBitmapData.width, objBitmapData.height));
 
         scaleX = scaleY = pixelDensity;
 
@@ -83,7 +83,7 @@ class Main extends MarkBase
 
     override private function resize():Void
     {
-        graphics.beginBitmapFill(patternBitmapData, null, true, false);
+        graphics.beginBitmapFill(bgBitmapData, null, true, false);
         graphics.drawRect(0, 0, dpiWidth, dpiHeight);
         graphics.endFill();
     }

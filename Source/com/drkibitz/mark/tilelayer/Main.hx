@@ -21,10 +21,10 @@ class Main extends MarkBase
     {
         scaleX = scaleY = pixelDensity;
 
-        var r:Rectangle = cast markObjBitmapData.rect.clone();
-        var sheet:TilesheetEx = new TilesheetEx(markObjBitmapData);
+        var r:Rectangle = cast objBitmapData.rect.clone();
+        var sheet:TilesheetEx = new TilesheetEx(objBitmapData);
         #if flash
-        sheet.addDefinition("obj", r, markObjBitmapData);
+        sheet.addDefinition("obj", r, objBitmapData);
         #else
         sheet.addDefinition("obj", r, r, new Point());
         #end
@@ -76,7 +76,7 @@ class Main extends MarkBase
 
     override private function resize():Void
     {
-        graphics.beginBitmapFill(patternBitmapData, null, true, false);
+        graphics.beginBitmapFill(bgBitmapData, null, true, false);
         graphics.drawRect(0, 0, dpiWidth, dpiHeight);
         graphics.endFill();
     }

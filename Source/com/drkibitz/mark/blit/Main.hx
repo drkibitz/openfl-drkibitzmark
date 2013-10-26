@@ -64,8 +64,8 @@ class Main extends MarkBase
             obj.y = y;
 
             bitmap.bitmapData.copyPixels(
-                markObjBitmapData,
-                markObjBitmapData.rect,
+                objBitmapData,
+                objBitmapData.rect,
                 obj, null, null, true);
         }
 
@@ -74,7 +74,7 @@ class Main extends MarkBase
 
     override private function resize():Void
     {
-        graphics.beginBitmapFill(patternBitmapData, null, true, false);
+        graphics.beginBitmapFill(bgBitmapData, null, true, false);
         graphics.drawRect(0, 0, dpiWidth, dpiHeight);
         graphics.endFill();
         bitmap.bitmapData = new BitmapData(dpiWidth, dpiHeight);

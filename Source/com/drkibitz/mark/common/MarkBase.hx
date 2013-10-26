@@ -15,18 +15,18 @@ class MarkBase extends Sprite
     private static inline var AMOUNT_TO_ADD:Int =#if mobile 10#else 50#end;
     private static inline var MAX_NUM_OF_OBJS:Int = 200000;
 
+    private var bgBitmapData:BitmapData;
     private var createMarkObj:Void -> IMarkObj;
     private var dpiHeight:Int;
     private var dpiWidth:Int;
     private var isAdding:Bool = false;
     private var markObjs:Array <IMarkObj>;
-    private var markObjBitmapData:BitmapData;
     private var maxX:Int;
     private var maxY:Int;
     private var minX:Int = 0;
     private var minY:Int = -100;
     private var numOfMarkObjs:Int = 0;
-    private var patternBitmapData:BitmapData;
+    private var objBitmapData:BitmapData;
     private var pixelDensity:Float = 1;
     private var stats:Stats;
     private var statsTimer:Timer;
@@ -84,8 +84,8 @@ class MarkBase extends Sprite
     {
         dpiWidth = Std.int(stage.stageWidth / pixelDensity);
         dpiHeight = Std.int(stage.stageHeight / pixelDensity);
-        maxX = Std.int(dpiWidth - markObjBitmapData.width);
-        maxY = Std.int(dpiHeight - markObjBitmapData.height);
+        maxX = Std.int(dpiWidth - objBitmapData.width);
+        maxY = Std.int(dpiHeight - objBitmapData.height);
         resize();
     }
 
@@ -108,18 +108,15 @@ class MarkBase extends Sprite
         #end
 
         markObjs = new Array <IMarkObj>();
-        patternBitmapData = Assets.getBitmapData("images/pattern64.png", true);
         stats = new Stats();
         statsTimer = new Timer(1000);
-        markObjBitmapData = Assets.getBitmapData(
-            #if MARK_IMAGE_WABBIT"images/wabbit_alpha.png"#else"images/drkibitz48.png"#end,
-            true
-        );
+        bgBitmapData = Assets.getBitmapData('bg.png', true);
+        objBitmapData = Assets.getBitmapData('obj.png', true);
 
         dpiWidth = Std.int(stage.stageWidth / pixelDensity);
         dpiHeight = Std.int(stage.stageHeight / pixelDensity);
-        maxX = Std.int(dpiWidth - markObjBitmapData.width);
-        maxY = Std.int(dpiHeight - markObjBitmapData.height);
+        maxX = Std.int(dpiWidth - objBitmapData.width);
+        maxY = Std.int(dpiHeight - objBitmapData.height);
 
         init();
         resize();

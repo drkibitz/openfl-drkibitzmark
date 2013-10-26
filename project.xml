@@ -51,11 +51,19 @@
     <source path="Source" />
     <haxelib name="openfl" />
 
-    <!-- assets -->
-    <assets path="Assets/images" rename="images" include="*" />
-    <icon path="Assets/images/drkibitz48.png" />
     <!-- For ease of changing this -->
-    <!-- <haxedef name="MARK_IMAGE_WABBIT" /> -->
+    <!-- <set name="MARK_IMAGE_WABBIT" /> -->
+    <!-- assets -->
+    <section unless="MARK_IMAGE_WABBIT">
+        <assets path="Assets/images/pattern32.png" rename="bg.png" include="*" />
+        <assets path="Assets/images/drkibitz48.png" rename="obj.png" include="*" />
+        <icon path="Assets/images/drkibitz48.png" />
+    </section>
+    <section if="MARK_IMAGE_WABBIT">
+        <assets path="Assets/images/grass32.png" rename="bg.png" include="*" />
+        <assets path="Assets/images/wabbit_alpha.png" rename="obj.png" include="*" />
+        <icon path="Assets/images/wabbit_alpha.png" />
+    </section>
 
     <!-- optimize output -->
     <haxeflag name="-dce std" />

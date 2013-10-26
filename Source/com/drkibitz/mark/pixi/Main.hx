@@ -28,12 +28,12 @@ class Main extends MarkBase
 
             scene = new Scene();
             renderer = new GLRenderer();
-            texture = new Texture(new TextureBase(markObjBitmapData));
+            texture = new Texture(new TextureBase(objBitmapData));
             addChild(renderer.view);
 
             createMarkObj = this_createMarkObj;
 
-            patternSprite = new Sprite(new Texture(new TextureBase(patternBitmapData)));
+            patternSprite = new Sprite(new Texture(new TextureBase(bgBitmapData)));
             patternSprite.texture.textureBase.repeat = true;
             scene.addChild(patternSprite);
 

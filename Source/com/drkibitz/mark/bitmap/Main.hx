@@ -7,7 +7,7 @@ class Main extends MarkBase
 {
     private function this_createMarkObj():MarkObj
     {
-        var obj = new MarkObj(markObjBitmapData, PixelSnapping.ALWAYS, false);
+        var obj = new MarkObj(objBitmapData, PixelSnapping.ALWAYS, false);
         addChild(obj);
         return obj;
     }
@@ -58,7 +58,7 @@ class Main extends MarkBase
 
     override private function resize():Void
     {
-        graphics.beginBitmapFill(patternBitmapData, null, true, false);
+        graphics.beginBitmapFill(bgBitmapData, null, true, false);
         graphics.drawRect(0, 0, dpiWidth, dpiHeight);
         graphics.endFill();
     }
