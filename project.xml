@@ -16,33 +16,33 @@
     <!-- Implementations -->
     <section if="MARK_BITMAP">
         <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-        <meta title="Bitmap Mark" package="com.drkibitz.mark.bitmap" version="1.0.0" />
+        <meta title="Bitmap Mark" package="com.drkibitz.mark.bitmap" version="0.0.2" />
         <!-- output -->
-        <app file="BitmapMark" main="com.drkibitz.mark.bitmap.Main" path="Export/bitmap"  />
+        <app file="BitmapMark-0.0.2" main="com.drkibitz.mark.bitmap.Main" path="Export/bitmap"  />
     </section>
     <section if="MARK_BLIT">
         <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-        <meta title="Blit Mark" package="com.drkibitz.mark.blit" version="1.0.0" />
+        <meta title="Blit Mark" package="com.drkibitz.mark.blit" version="0.0.2" />
         <!-- output -->
-        <app file="BlitMark" main="com.drkibitz.mark.blit.Main" path="Export/blit" />
+        <app file="BlitMark-0.0.2" main="com.drkibitz.mark.blit.Main" path="Export/blit" />
     </section>
     <section if="MARK_DRAWTILES">
         <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-        <meta title="DrawTiles Mark" package="com.drkibitz.mark.drawtiles" version="1.0.0" />
+        <meta title="DrawTiles Mark" package="com.drkibitz.mark.drawtiles" version="0.0.2" />
         <!-- output -->
-        <app file="DrawTilesMark" main="com.drkibitz.mark.drawtiles.Main" path="Export/drawtiles" />
+        <app file="DrawTilesMark-0.0.2" main="com.drkibitz.mark.drawtiles.Main" path="Export/drawtiles" />
     </section>
     <section if="MARK_PIXI">
         <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-        <meta title="Pixi Mark" package="com.drkibitz.mark.pixi" version="1.0.0" />
+        <meta title="Pixi Mark" package="com.drkibitz.mark.pixi" version="0.0.2" />
         <!-- output -->
-        <app file="PixiMark" main="com.drkibitz.mark.pixi.Main" path="Export/pixi" />
+        <app file="PixiMark-0.0.2" main="com.drkibitz.mark.pixi.Main" path="Export/pixi" />
     </section>
     <section if="MARK_TILELAYER">
         <!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-        <meta title="TileLayer Mark" package="com.drkibitz.mark.tilelayer" version="1.0.0" />
+        <meta title="TileLayer Mark" package="com.drkibitz.mark.tilelayer" version="0.0.2" />
         <!-- output -->
-        <app file="TileLayerMark" main="com.drkibitz.mark.tilelayer.Main" path="Export/tilelayer" />
+        <app file="TileLayerMark-0.0.2" main="com.drkibitz.mark.tilelayer.Main" path="Export/tilelayer" />
         <!-- classpath, haxe libs -->
         <haxelib name="tilelayer" />
     </section>
