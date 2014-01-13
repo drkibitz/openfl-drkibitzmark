@@ -70,3 +70,7 @@ These are just my home tests, and includes my observations of implementation per
 - Eventually create an [openfl-stage3d](https://github.com/wighawag/openfl-stage3d) mark
 - Would like to remove the small fork of Pixi.js and use a proper GL implementation
 - May do something with [openfl-pixi](https://github.com/openfl/openfl-pixi), but not sure
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/drkibitz/openfl-drkibitzmark/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
